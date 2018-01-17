@@ -1,19 +1,8 @@
 import css from '../css/main.css';
-import Handlebars from '../../node_modules/handlebars/dist/handlebars';
-import img from '../img/marks.png';
+import geoCode from './modules/geocode';
+import placeMark from './modules/placemark';
+import loadComments from './modules/loadcomments';
 
-// получение адресной строки
-function geoCode(coords) {
-    return ymaps.geocode(coords)
-        .then(result => {
-            const address = result.geoObjects.get(0).properties.get('text'),
-                popupHead = document.querySelector('.address');
-
-            popupHead.textContent = address;
-
-            return address;
-        });
-}
 let myMap;
 let clusterer;
 let comments = [];
@@ -21,64 +10,6 @@ let comments = [];
 if (localStorage.comments) {
     comments = JSON.parse(localStorage.comments);
 }
-// Создание метки
-function placeMark(coords, obj) {
-    let myPlacemark = new ymaps.Placemark(
-        coords,
-        {
-            Header: obj.place,
-            Body: obj.comment,
-            Link: obj.address,
-            Footer: obj.date,
-            CoordX: obj.coords[0],
-            CoordY: obj.coords[1]
-        }, 
-        {
-            iconLayout: 'default#image',
-            iconImageHref: img,
-            iconImageSize: [22, 33],
-            iconImageOffset: [-11, -30]
-        })
-
-    geoCode(coords);
-
-    return myPlacemark;
-}
-// загрузка отзывов
-function loadComments(coords, address) { // адрес получить с клика по ссылке
-    let block = document.querySelector('.comments');
-
-    block.innerHTML = '';
-    if (coords) {
-        comments.map(comment => {
-            if (comment.coords.join() === coords.join()) {
-                block.innerHTML += renderCom(comment);
-            }
-        })
-    } else if (address) {
-        comments.map(comment => {
-            if (comment.address === address) {
-                block.innerHTML += renderCom(comment);
-            }
-        })
-    }
-}
-// render
-function renderCom(obj) {
-    const template = `
-        <div class="info">
-            <span class="name">{{name}}</span>
-            <span class="place">{{place}}</span>
-            <span class="date">{{date}}</span>
-        </div>
-        <div class="comment">{{comment}}</div>`;
-
-    const render = Handlebars.compile(template);
-    const html = render(obj);
-
-    return html;
-}
-
 new Promise(resolve => ymaps.ready(resolve))
     .then(() => {
         let coords;
@@ -116,7 +47,7 @@ new Promise(resolve => ymaps.ready(resolve))
                 onLinkClick: function (e) {
                     e.preventDefault();
                     popup.style.display = 'block';
-                    loadComments('', document.querySelector('.balloon-link').textContent);
+                    loadComments(document.querySelector('.balloon-link').textContent, comments);
                     popup.querySelector('.address').textContent = document.querySelector('.balloon-link').textContent;
                     myMap.balloon.close();
                     coords = [e.target.dataset.x, e.target.dataset.y];
@@ -148,7 +79,7 @@ new Promise(resolve => ymaps.ready(resolve))
             myPLacemark.events.add('click', () => {
                 popup.style.display = 'block';
                 geoCode(myPLacemark.geometry.getCoordinates());
-                loadComments(myPLacemark.geometry.getCoordinates());
+                loadComments(myPLacemark.geometry.getCoordinates(), comments);
                 coords = myPLacemark.geometry.getCoordinates();
             })
         })
@@ -160,7 +91,7 @@ new Promise(resolve => ymaps.ready(resolve))
             coords = e.get('coords');
             geoCode(coords);
             popup.style.display = 'block';
-            loadComments(coords);
+            loadComments(coords, comments);
         })
         // обработка клика по добавить
 
@@ -183,11 +114,11 @@ new Promise(resolve => ymaps.ready(resolve))
 
                 comments.push(obj);
                 myPlacemark = placeMark(coords, obj);
-                loadComments(myPlacemark.geometry.getCoordinates());
+                loadComments(myPlacemark.geometry.getCoordinates(), comments);
                 // обработка кликов по добавленным меткам
                 myPlacemark.events.add('click', () => {
                     popup.style.display = 'block';
-                    loadComments(myPlacemark.geometry.getCoordinates());
+                    loadComments(myPlacemark.geometry.getCoordinates(), comments);
                     coords = myPlacemark.geometry.getCoordinates();
                     popup.querySelector('.address').textContent = res;
                 })
