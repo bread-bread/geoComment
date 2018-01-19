@@ -2,6 +2,7 @@ import css from '../css/main.css';
 import geoCode from './modules/geocode';
 import placeMark from './modules/placemark';
 import loadComments from './modules/loadcomments';
+import validation from './modules/validation';
 
 let myMap;
 let clusterer;
@@ -87,14 +88,26 @@ new Promise(resolve => ymaps.ready(resolve))
         myMap.events.add('click', function (e) {
 
             // let clientPixels = e.getSourceEvent().originalEvent.clientPixels;
-
+            form.querySelector('.input-name').classList.remove('error');
+            form.querySelector('textarea').classList.remove('error');
             coords = e.get('coords');
             geoCode(coords);
             popup.style.display = 'block';
             loadComments(coords, comments);
         })
-        // обработка клика по добавить
 
+        form.querySelector('.input-name').addEventListener('focus', e => {
+            if (e.target.classList.contains('error')) {
+                e.target.classList.remove('error');
+            }
+        })
+        form.querySelector('textarea').addEventListener('focus', e => {
+            if (e.target.classList.contains('error')) {
+                e.target.classList.remove('error');
+            }
+        })
+
+        // обработка клика по добавить
         addButton.addEventListener('click', (e) => {
             e.preventDefault();
             let obj = {},
@@ -103,6 +116,10 @@ new Promise(resolve => ymaps.ready(resolve))
                 myPlacemark; 
 
             (month < 10) ? (month = '0'+month) : month;
+
+            if (!validation(form)) {
+                return
+            }
 
             geoCode(coords).then( res => {
                 obj.coords = coords;
