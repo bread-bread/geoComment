@@ -11,7 +11,6 @@ let PATHS = {
 module.exports = {
     entry: PATHS.source + '/js/index.js',
     output: {
-        publicPath: './',
         filename: '[name].[hash].js',
         path: PATHS.dist
     },
