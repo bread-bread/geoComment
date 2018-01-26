@@ -1,21 +1,21 @@
 @font-face {
     font-family: 'firaSans-medium';
     src: local('Fira Sans Medium'),
-    url(fonts/1078f13b74ff9122be76db3ddaf8870c.ttf);
+    url(./fonts/1078f13b74ff9122be76db3ddaf8870c.ttf);
     font-weight: 500;
 	font-style: normal;
 }
 @font-face {
     font-family: 'firaSans-regular';
     src: local('Fira Sans'), 
-    url(fonts/808fbb61cedded38d08971f5ae9d5f83.ttf);
+    url(./fonts/808fbb61cedded38d08971f5ae9d5f83.ttf);
     font-weight: 400;
     font-style: normal;
 }
 @font-face {
     font-family: 'firaSans-light';
     src: local('Fira Sans Light'),
-    url(fonts/716a1f5ada34cf1bd35282c6831127f6.ttf);
+    url(./fonts/716a1f5ada34cf1bd35282c6831127f6.ttf);
     font-weight: 300;
 	font-style: normal;
 }
