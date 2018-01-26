@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/";
+/******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 36);
@@ -6919,4 +6919,4 @@ function validation(form) {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.6e6ec2922b0f69fd7f6e.js.map
+//# sourceMappingURL=main.07762cee840eba84db95.js.map
