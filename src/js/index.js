@@ -1,4 +1,5 @@
 import css from '../css/main.css';
+import logo from '../img/logo.png';
 import geoCode from './modules/geocode';
 import placeMark from './modules/placemark';
 import loadComments from './modules/loadcomments';

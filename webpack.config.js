@@ -11,6 +11,7 @@ let PATHS = {
 module.exports = {
     entry: PATHS.source + '/js/index.js',
     output: {
+        publicPath: '/',
         filename: '[name].[hash].js',
         path: PATHS.dist
     },
@@ -35,7 +36,8 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg|)$/i,
-                use: 'file-loader?name=images/[hash].[ext]'
+                include: path.join(__dirname, 'src/img'),
+                use: 'file-loader?name=img/[name].[ext]'
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,

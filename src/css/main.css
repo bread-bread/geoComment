@@ -194,3 +194,13 @@ p {
     border-width: 1px;
     color: rgb(255, 77, 77);
 }
+
+.logo {
+    position: absolute;
+    bottom: 40px;
+    right: 30px;
+}
+.logo__img {
+    display: block;
+    width: 100%;
+}
