@@ -204,4 +204,21 @@ p {
     display: block;
     width: 100%;
 }
+@media (max-width: 480px) {
+    .wrapper {
+        overflow: auto;
+    }
+    .popup {
+        left: 50%;
+        top: 50px;
+        transform: translateX(-50%);
+        width: 98%;
+        z-index: 1;
+    }
+    .logo {
+        bottom: 20px;
+        right: 15px;
+        width: 60px;
+    }
+}
 /*# sourceMappingURL=main.css.map*/
